@@ -60,7 +60,9 @@ def analyze_video_stream(video_path: str | Path) -> Iterator[dict[str, Any]]:
     view_mode_hint = "mixed"
     last_decision: dict[str, Any] | None = None
 
-    output_path = Path(tempfile.gettempdir()) / f"people-flow-{next(tempfile._get_candidate_names())}{VIDEO_SUFFIX}"
+    output_file = tempfile.NamedTemporaryFile(prefix="people-flow-", suffix=VIDEO_SUFFIX, delete=False)
+    output_path = Path(output_file.name)
+    output_file.close()
     writer: cv2.VideoWriter | None = None
 
     try:
@@ -91,12 +93,7 @@ def analyze_video_stream(video_path: str | Path) -> Iterator[dict[str, Any]]:
 
             if writer is None:
                 height, width = overlay.shape[:2]
-                writer = cv2.VideoWriter(
-                    str(output_path),
-                    cv2.VideoWriter_fourcc(*"VP80"),
-                    effective_fps,
-                    (width, height),
-                )
+                writer = create_video_writer(output_path, effective_fps, (width, height))
                 if not writer.isOpened():
                     raise RuntimeError("Could not create output video writer.")
 
@@ -209,3 +206,17 @@ def analyze_video_stream(video_path: str | Path) -> Iterator[dict[str, Any]]:
         "annotated_video": str(output_path),
         "is_final": True,
     }
+
+
+def create_video_writer(output_path: Path, fps: float, frame_size: tuple[int, int]) -> cv2.VideoWriter:
+    for codec in ("mp4v", "avc1", "MJPG"):
+        writer = cv2.VideoWriter(
+            str(output_path),
+            cv2.VideoWriter_fourcc(*codec),
+            fps,
+            frame_size,
+        )
+        if writer.isOpened():
+            return writer
+        writer.release()
+    return cv2.VideoWriter()

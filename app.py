@@ -1,10 +1,28 @@
 from __future__ import annotations
 
+import asyncio
 import json
+import sys
 import gradio as gr
 
 from pipeline import MAX_VIDEO_DURATION_SEC, analyze_video_stream
 from utils import discover_video_examples
+
+
+DEFAULT_UNRAISABLE_HOOK = sys.unraisablehook
+
+
+def suppress_asyncio_cleanup_noise(unraisable) -> None:
+    exc = unraisable.exc_value
+    obj = unraisable.object
+    is_asyncio_del = obj is asyncio.BaseEventLoop.__del__
+    is_invalid_fd = isinstance(exc, ValueError) and "Invalid file descriptor" in str(exc)
+    if is_asyncio_del and is_invalid_fd:
+        return
+    DEFAULT_UNRAISABLE_HOOK(unraisable)
+
+
+sys.unraisablehook = suppress_asyncio_cleanup_noise
 
 
 def run_video_analysis(video):
