@@ -134,4 +134,4 @@ with gr.Blocks(title="People Flow CV") as demo:
 
 
 if __name__ == "__main__":
-    demo.launch(theme=theme, css_paths="app.css")
+    demo.launch(theme=theme, css_paths="app.css", ssr_mode=False)
