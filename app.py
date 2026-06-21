@@ -77,7 +77,7 @@ theme = gr.themes.Base(
     button_primary_text_color="#080a12",
 )
 
-with gr.Blocks(title="People Flow CV") as demo:
+with gr.Blocks(title="People Flow CV", analytics_enabled=False) as demo:
     gr.Markdown(
         (
             "# Automated People Flow Tracking\n"
