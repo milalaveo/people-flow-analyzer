@@ -1,6 +1,6 @@
 ---
 title: People Flow CV
-emoji: "CV"
+emoji: "🚶"
 colorFrom: blue
 colorTo: green
 sdk: gradio
