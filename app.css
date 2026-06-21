@@ -1,0 +1,294 @@
+:root {
+    --pf-bg: #080a12;
+    --pf-panel: #10131f;
+    --pf-panel-soft: #161b2b;
+    --pf-border: #2ad6b7;
+    --pf-border-dim: rgba(42, 214, 183, 0.28);
+    --pf-text: #f1e6b8;
+    --pf-muted: #8fa79f;
+    --pf-green: #39ff88;
+    --pf-cyan: #2ad6b7;
+    --pf-amber: #f2b84b;
+    --pf-red: #ff5a52;
+    --pf-blue: #4b80ff;
+    --pf-black: #05070d;
+}
+
+.gradio-container {
+    min-height: 100vh;
+    color: var(--pf-text);
+    font-family: "Cascadia Mono", "MS Gothic", "MS PGothic", "IBM Plex Mono", Consolas, monospace;
+    background:
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 4px),
+        linear-gradient(rgba(42, 214, 183, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(242, 184, 75, 0.035) 1px, transparent 1px),
+        radial-gradient(circle at 78% 8%, rgba(75, 128, 255, 0.18), transparent 28%),
+        linear-gradient(180deg, #080a12 0%, #10131f 54%, #07080e 100%);
+    background-size: 100% 4px, 32px 32px, 32px 32px, 100% 100%, 100% 100%;
+}
+
+.main {
+    max-width: 1280px;
+}
+
+* {
+    letter-spacing: 0;
+}
+
+.pf-title {
+    position: relative;
+    padding: 18px;
+    margin-bottom: 10px;
+    border: 2px solid var(--pf-border);
+    border-left: 8px solid var(--pf-amber);
+    background: linear-gradient(90deg, rgba(42, 214, 183, 0.11), rgba(242, 184, 75, 0.04));
+    box-shadow: 6px 6px 0 #000;
+}
+
+.pf-title h1 {
+    margin: 0;
+    color: var(--pf-text);
+    font-family: "Cascadia Mono", "MS Gothic", "MS PGothic", Consolas, monospace;
+    font-size: 30px;
+    line-height: 1.1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    text-shadow: 2px 0 0 rgba(42, 214, 183, 0.42), -2px 0 0 rgba(255, 90, 82, 0.24);
+}
+
+.pf-title > *,
+.pf-title .prose,
+.pf-title .markdown {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.pf-title p {
+    margin: 8px 0 0;
+    color: var(--pf-muted);
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.pf-workspace {
+    margin-top: 20px;
+}
+
+.pf-panel,
+.pf-output-panel {
+    border: 2px solid var(--pf-border-dim);
+    border-radius: 0;
+    background: rgba(16, 19, 31, 0.96);
+    box-shadow: 8px 8px 0 #000;
+    padding: 14px;
+}
+
+.pf-output-panel {
+    border-color: rgba(242, 184, 75, 0.48);
+}
+
+.pf-status {
+    margin: 10px 0;
+    padding: 10px 12px;
+    border: 1px solid var(--pf-green);
+    border-left: 6px solid var(--pf-green);
+    border-radius: 0;
+    color: var(--pf-text);
+    background: #07110d;
+    box-shadow: inset 0 0 0 1px rgba(57, 255, 136, 0.16);
+}
+
+.pf-status p {
+    margin: 0;
+    color: var(--pf-green);
+}
+
+.pf-status > *,
+.pf-status .prose,
+.pf-status .markdown,
+.pf-status .html-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.pf-progress {
+    display: grid;
+    gap: 9px;
+}
+
+.pf-progress-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--pf-green);
+    font-family: "Cascadia Mono", "MS Gothic", Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.pf-progress-meta span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.pf-progress-meta strong {
+    min-width: 4ch;
+    color: var(--pf-text);
+    font-weight: 800;
+    text-align: right;
+}
+
+.pf-progress-track {
+    position: relative;
+    height: 18px;
+    border: 2px solid var(--pf-cyan);
+    background:
+        repeating-linear-gradient(90deg, rgba(241, 230, 184, 0.11) 0 1px, transparent 1px 10px),
+        #030509;
+    box-shadow:
+        inset 0 0 0 2px #000,
+        3px 3px 0 #000;
+    overflow: hidden;
+}
+
+.pf-progress-fill {
+    height: 100%;
+    background:
+        repeating-linear-gradient(90deg, rgba(5, 7, 13, 0.3) 0 1px, transparent 1px 10px),
+        linear-gradient(90deg, #1fd06d, #39ff88);
+    box-shadow: inset -2px 0 0 rgba(5, 7, 13, 0.72);
+    transition: width 160ms steps(8, end);
+}
+
+.pf-stage {
+    border: 2px solid rgba(242, 184, 75, 0.34);
+    border-radius: 0;
+    overflow: hidden;
+    background: var(--pf-panel);
+}
+
+button.primary,
+.gradio-button.primary {
+    border: 2px solid #74f7df !important;
+    border-radius: 0 !important;
+    color: #dffdf8 !important;
+    font-family: "Cascadia Mono", "MS Gothic", Consolas, monospace;
+    font-weight: 800;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #0c5f66, #15917f) !important;
+    box-shadow: 5px 5px 0 #000;
+}
+
+button.primary:hover,
+.gradio-button.primary:hover {
+    filter: brightness(1.08);
+    transform: translate(1px, 1px);
+    box-shadow: 4px 4px 0 #000;
+}
+
+.tabs,
+.tabitem {
+    border-color: var(--pf-border-dim) !important;
+    border-radius: 0 !important;
+    background: rgba(8, 10, 18, 0.82) !important;
+}
+
+label,
+.label-wrap,
+.block-title,
+.block-label,
+.form label,
+.wrap label,
+[class*="label-wrap"],
+[class*="block-label"],
+[data-testid="block-label"] {
+    color: var(--pf-text) !important;
+    font-family: "Cascadia Mono", "MS Gothic", Consolas, monospace !important;
+}
+
+.label-wrap,
+.block-title,
+.block-label,
+[class*="label-wrap"],
+[class*="block-label"],
+[data-testid="block-label"] {
+    border-color: var(--pf-border-dim) !important;
+    border-radius: 0 !important;
+    color: var(--pf-text) !important;
+    background: var(--pf-black) !important;
+    background-color: var(--pf-black) !important;
+    text-transform: uppercase;
+}
+
+.label-wrap span,
+.block-title span,
+.block-label span,
+[class*="label-wrap"] span,
+[class*="block-label"] span,
+[data-testid="block-label"] span {
+    color: var(--pf-text) !important;
+    background: transparent !important;
+}
+
+.label-wrap svg,
+.block-title svg,
+.block-label svg,
+[class*="label-wrap"] svg,
+[class*="block-label"] svg {
+    color: var(--pf-text) !important;
+    fill: currentColor !important;
+    stroke: currentColor !important;
+}
+
+textarea,
+pre,
+code {
+    color: var(--pf-text) !important;
+    background: #090c15 !important;
+    font-family: "Cascadia Mono", "MS Gothic", Consolas, monospace !important;
+}
+
+.block,
+.form,
+.wrap,
+.contain,
+.panel {
+    border-radius: 0 !important;
+}
+
+.thumbnail-item,
+.gallery,
+video,
+img {
+    border-radius: 0 !important;
+}
+
+.tab-nav button,
+button[role="tab"] {
+    color: var(--pf-muted) !important;
+    border-radius: 0 !important;
+    font-family: "Cascadia Mono", "MS Gothic", Consolas, monospace !important;
+}
+
+.tab-nav button.selected,
+button[role="tab"][aria-selected="true"] {
+    color: var(--pf-amber) !important;
+    border-bottom-color: var(--pf-amber) !important;
+}
+
+@media (max-width: 760px) {
+    .pf-title h1 {
+        font-size: 22px;
+    }
+
+    .pf-title {
+        padding: 14px;
+    }
+}
