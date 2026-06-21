@@ -153,11 +153,14 @@ with gr.Blocks(title="People Flow CV", analytics_enabled=False) as demo:
 
 
 if __name__ == "__main__":
-    demo.queue(default_concurrency_limit=1).launch(
-        server_name="0.0.0.0",
-        server_port=int(os.environ.get("PORT", 7860)),
-        theme=theme,
-        css_paths="app.css",
-        ssr_mode=False,
-        show_error=True,
-    )
+    launch_kwargs = {
+        "server_name": "0.0.0.0",
+        "theme": theme,
+        "css_paths": "app.css",
+        "ssr_mode": False,
+        "show_error": True,
+    }
+    if "PORT" in os.environ:
+        launch_kwargs["server_port"] = int(os.environ["PORT"])
+
+    demo.queue(default_concurrency_limit=1).launch(**launch_kwargs)

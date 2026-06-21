@@ -41,7 +41,7 @@ jobs:
             --exclude ".git" \
             --exclude ".github" \
             --exclude "__pycache__" \
-            --exclude "people_flow/__pycache__" \
+            --exclude "pipeline/__pycache__" \
             --exclude "assets/images" \
             --exclude "assets/videos" \
             ./ /tmp/hf-space/

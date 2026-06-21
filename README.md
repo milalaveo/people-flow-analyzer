@@ -68,7 +68,7 @@ It does not require a GPU or a deep learning model.
 
 ## Configuration
 
-Main pipeline settings live in `people_flow/config.py`.
+Main pipeline settings live in `pipeline/config.py`.
 
 ```python
 PROC_WIDTH = 640
@@ -93,8 +93,7 @@ The defaults are tuned for short pedestrian clips and CPU execution:
 .
 ├── app.py                  # Gradio UI and streaming updates
 ├── app.css                 # Retro dark UI styling
-├── pipeline.py             # Backward-compatible public API wrapper
-├── people_flow/
+├── pipeline/
 │   ├── config.py           # Pipeline constants
 │   ├── models.py           # Detection and Track dataclasses
 │   ├── preprocessing.py    # Resize, enhancement, mask cleanup
@@ -125,7 +124,7 @@ example videos from the UI.
 
 1. Create a new Space at <https://huggingface.co/spaces>.
 2. Select **Gradio** as the SDK and CPU hardware.
-3. Upload or commit the project files, including `people_flow/`, `assets/`,
+3. Upload or commit the project files, including `pipeline/`, `assets/`,
    `app.py`, `app.css`, `pipeline.py`, `utils.py`, `requirements.txt`, and
    `README.md`.
 4. Wait for the Space build to finish.
