@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import sys
 import gradio as gr
 
@@ -152,4 +153,11 @@ with gr.Blocks(title="People Flow CV", analytics_enabled=False) as demo:
 
 
 if __name__ == "__main__":
-    demo.launch(theme=theme, css_paths="app.css", ssr_mode=False)
+    demo.queue(default_concurrency_limit=1).launch(
+        server_name="0.0.0.0",
+        server_port=int(os.environ.get("PORT", 7860)),
+        theme=theme,
+        css_paths="app.css",
+        ssr_mode=False,
+        show_error=True,
+    )
