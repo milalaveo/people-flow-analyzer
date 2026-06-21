@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import Counter
 from pathlib import Path
+import subprocess
 import tempfile
 from typing import Any, Iterator
 
@@ -209,6 +210,10 @@ def analyze_video_stream(video_path: str | Path) -> Iterator[dict[str, Any]]:
 
 
 def create_video_writer(output_path: Path, fps: float, frame_size: tuple[int, int]) -> cv2.VideoWriter:
+    ffmpeg_writer = create_ffmpeg_h264_writer(output_path, fps, frame_size)
+    if ffmpeg_writer is not None:
+        return ffmpeg_writer
+
     for codec in ("mp4v", "avc1", "MJPG"):
         writer = cv2.VideoWriter(
             str(output_path),
@@ -220,3 +225,73 @@ def create_video_writer(output_path: Path, fps: float, frame_size: tuple[int, in
             return writer
         writer.release()
     return cv2.VideoWriter()
+
+
+class FfmpegVideoWriter:
+    def __init__(self, process: subprocess.Popen[bytes]) -> None:
+        self.process = process
+        self.stderr: bytes | None = None
+
+    def isOpened(self) -> bool:
+        return self.process.poll() is None and self.process.stdin is not None
+
+    def write(self, frame) -> None:
+        if self.process.stdin is None:
+            raise RuntimeError("FFmpeg video writer stdin is closed.")
+        self.process.stdin.write(frame.tobytes())
+
+    def release(self) -> None:
+        if self.process.stdin is not None and not self.process.stdin.closed:
+            self.process.stdin.close()
+        self.stderr = self.process.stderr.read() if self.process.stderr is not None else b""
+        returncode = self.process.wait()
+        if returncode != 0:
+            message = self.stderr.decode("utf-8", errors="replace").strip()
+            raise RuntimeError(f"FFmpeg video writer failed with code {returncode}: {message}")
+
+
+def create_ffmpeg_h264_writer(output_path: Path, fps: float, frame_size: tuple[int, int]) -> FfmpegVideoWriter | None:
+    try:
+        import imageio_ffmpeg
+    except ImportError:
+        return None
+
+    width, height = frame_size
+    command = [
+        imageio_ffmpeg.get_ffmpeg_exe(),
+        "-y",
+        "-loglevel",
+        "error",
+        "-f",
+        "rawvideo",
+        "-vcodec",
+        "rawvideo",
+        "-s",
+        f"{width}x{height}",
+        "-pix_fmt",
+        "bgr24",
+        "-r",
+        f"{max(fps, 1.0):.3f}",
+        "-i",
+        "-",
+        "-an",
+        "-vcodec",
+        "libx264",
+        "-vf",
+        "pad=ceil(iw/2)*2:ceil(ih/2)*2",
+        "-pix_fmt",
+        "yuv420p",
+        "-movflags",
+        "+faststart",
+        str(output_path),
+    ]
+    try:
+        process = subprocess.Popen(
+            command,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+        )
+    except OSError:
+        return None
+    return FfmpegVideoWriter(process)

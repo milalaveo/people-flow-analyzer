@@ -116,7 +116,7 @@ with gr.Blocks(title="People Flow CV", analytics_enabled=False) as demo:
                     label="Example videos",
                 )
         with gr.Column(scale=1, elem_classes="pf-output-panel"):
-            output_video = gr.Video(label="Annotated output video", visible=False)
+            output_video = gr.Video(label="Annotated output video", format="mp4", visible=False)
             processing_status = gr.HTML(render_progress(0, "Idle. Upload a video and start analysis."), elem_classes="pf-status")
             annotated_preview = gr.Image(label="Annotated preview while processing", visible=False)
             metrics = gr.Code(label="Video metrics", language="json")
